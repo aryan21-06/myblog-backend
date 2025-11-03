@@ -7,6 +7,11 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const JWT_SECRET = process.env.JWT_SECRET;
 
+console.log("Loaded Admin Email:", ADMIN_EMAIL);
+console.log("Loaded Admin Password:", ADMIN_PASSWORD ? "Exists ✅" : "Missing ❌");
+console.log("Loaded JWT Secret:", JWT_SECRET ? "Exists ✅" : "Missing ❌");
+
+
 // ✅ Admin login route
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
