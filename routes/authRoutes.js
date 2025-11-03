@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
@@ -20,8 +19,8 @@ router.post("/login", async (req, res) => {
     return res.status(401).json({ error: "Invalid email" });
   }
 
-  // Compare plain text password with stored plain or hashed password
-  const isMatch = password === ADMIN_PASSWORD; // TEMPORARY for testing
+  // Compare plain text passwords (for now)
+  const isMatch = password === ADMIN_PASSWORD;
 
   if (!isMatch) {
     return res.status(401).json({ error: "Invalid password" });
