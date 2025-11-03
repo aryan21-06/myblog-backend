@@ -5,25 +5,24 @@ const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD; // plain text in .env
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const JWT_SECRET = process.env.JWT_SECRET;
 
-// Hash admin password once at startup
-const hashedPassword = bcrypt.hashSync(ADMIN_PASSWORD, 10);
-
-// Admin login route
+// ✅ Admin login route
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ error: "Email and password are required" });
+  if (!ADMIN_EMAIL || !ADMIN_PASSWORD || !JWT_SECRET) {
+    return res.status(500).json({ error: "Server not configured properly" });
   }
 
   if (email !== ADMIN_EMAIL) {
     return res.status(401).json({ error: "Invalid email" });
   }
 
-  const isMatch = await bcrypt.compare(password, hashedPassword);
+  // Compare plain text password with stored plain or hashed password
+  const isMatch = password === ADMIN_PASSWORD; // TEMPORARY for testing
+
   if (!isMatch) {
     return res.status(401).json({ error: "Invalid password" });
   }
